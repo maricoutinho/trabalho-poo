@@ -5,3 +5,10 @@ B: The pinapple is green.
 C: The apple is red.
 D: The pinapple is green.
 Resposta: C
+Texto: The apple is red.
+Pergunta: Qual a tradução correta?
+A: A maçã é verde.
+B: O abacaxi é verde.
+C: O abacaxi é vermelho.
+D: A maçã é vermelha.
+Resposta: D

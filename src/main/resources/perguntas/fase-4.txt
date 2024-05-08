@@ -1,6 +1,6 @@
-Texto: A manga é vermelha.
+Texto: O limão é verde.
 Pergunta: Qual a tradução correta?
-A: The mango is green.
+A: The lemon is green.
 B: The pinapple is green.
 C: The apple is red.
 D: The pinapple is green.

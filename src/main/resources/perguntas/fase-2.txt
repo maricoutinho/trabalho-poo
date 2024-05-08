@@ -1,7 +1,7 @@
 Texto: A banana é amarela.
 Pergunta: Qual a tradução correta?
-A: The apple is green.
-B: The pinapple is green.
-C: The apple is red.
+A: The banana is yellow.
+B: The banana is green.
+C: The orange is red.
 D: The pinapple is green.
-Resposta: D
+Resposta: A

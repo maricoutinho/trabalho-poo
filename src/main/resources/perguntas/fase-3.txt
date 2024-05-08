@@ -1,0 +1,7 @@
+Texto: O abacaxi é verde.
+Pergunta: Qual a tradução correta?
+A: The apple is green.
+B: The pinapple is green.
+C: The apple is red.
+D: The pinapple is green.
+Resposta: B

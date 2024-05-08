@@ -1,0 +1,7 @@
+Texto: A manga é vermelha.
+Pergunta: Qual a tradução correta?
+A: The mango is green.
+B: The pinapple is green.
+C: The apple is red.
+D: The pinapple is green.
+Resposta: A

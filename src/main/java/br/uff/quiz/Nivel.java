@@ -1,11 +1,13 @@
-package br.uff.questionario;
+package br.uff.quiz;
+
+import java.util.List;
 
 public class Nivel {
 
     private int id;
-    private Pergunta[] perguntas;
+    private List<Pergunta> perguntas;
 
-    public Nivel(int id, Pergunta[] perguntas) {
+    public Nivel(int id, List<Pergunta> perguntas) {
         this.id = id;
         this.perguntas = perguntas;
     }
@@ -18,11 +20,11 @@ public class Nivel {
         this.id = id;
     }
 
-    public Pergunta[] getPerguntas() {
+    public List<Pergunta> getPerguntas() {
         return perguntas;
     }
 
-    public void setPerguntas(Pergunta[] perguntas) {
+    public void setPerguntas(List<Pergunta> perguntas) {
         this.perguntas = perguntas;
     }
 }

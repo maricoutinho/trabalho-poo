@@ -46,12 +46,6 @@ Concluido: 100%
 Nivel: 2
 Respondidas corretamente: 0,2
 Concluido: 50%
-Nivel: 3
-Respondidas corretamente:
-Concluido: 0%
-Nivel: 4
-Respondidas corretamente:
-Concluido: 0%
 ```
 #### Professor
 ```

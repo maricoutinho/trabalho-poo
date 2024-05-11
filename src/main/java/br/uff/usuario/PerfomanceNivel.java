@@ -27,7 +27,7 @@ public class PerfomanceNivel {
         this.porcentagemConclusao = porcentagemConclusao;
     }
 
-    private String perguntasCorretasToString() {
+    public String perguntasCorretasToString() {
         String perguntasCorretasString = "";
         for (int i = 0; i < perguntasCorretas.size(); i++) {
             perguntasCorretasString += perguntasCorretas.get(i);
@@ -41,7 +41,6 @@ public class PerfomanceNivel {
 
     @Override
     public String toString() {
-        return "Respondidas corretamente: " + perguntasCorretasToString() + "\n"+
-                "Concluido: " + porcentagemConclusao + "%";
+        return "Concluído: " + porcentagemConclusao;
     }
 }

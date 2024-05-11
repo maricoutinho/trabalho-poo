@@ -1,4 +1,4 @@
-package br.uff.questionario;
+package br.uff.quiz;
 
 import br.uff.arquivo.PerguntasUtil;
 import br.uff.arquivo.UsuarioUtil;
@@ -7,33 +7,32 @@ import br.uff.usuario.PerfomanceNivel;
 import br.uff.usuario.Professor;
 import br.uff.usuario.Usuario;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Sistema {
 
-    private Nivel[] niveis;
-    private Usuario[] usuarios;
+    private List<Nivel> niveis;
+    private List<Usuario> usuarios;
 
     public Sistema() {
         this.niveis = PerguntasUtil.lerArquivos();
         this.usuarios = UsuarioUtil.lerArquivos();
     }
 
-    public Nivel[] getNiveis() {
+    public List<Nivel> getNiveis() {
         return niveis;
     }
 
-    public void setNiveis(Nivel[] fases) {
-        this.niveis = fases;
+    public void setNiveis(List<Nivel> niveis) {
+        this.niveis = niveis;
     }
 
-    public Usuario[] getUsuarios() {
+    public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(Usuario[] usuarios) {
+    public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
@@ -63,7 +62,7 @@ public class Sistema {
 
                 switch (tipo) {
                     case 1:
-                        usuario = new Aluno(login, senha, 1, new ArrayList<>());
+                        usuario = new Aluno(login, senha, 1);
                         break;
                     case 2:
                         usuario = new Professor(login, senha);
@@ -73,7 +72,6 @@ public class Sistema {
                         return null;
 
                 }
-                UsuarioUtil.salvaUsuario(usuario); // cria arquivo com info do usuario
                 break;
 
             case 2:
@@ -93,69 +91,75 @@ public class Sistema {
         return null;
     }
 
-    public boolean comecarQuestionario(Aluno aluno) {
+    public void exibeQuiz(Aluno aluno) {
         Scanner input = new Scanner(System.in);
-        boolean stop = false;
+        List<Nivel> niveis = getNiveis();
 
-        Nivel[] niveis = getNiveis();
+        if (niveis == null || niveis.isEmpty()) {
+            System.out.println("Poxa, ainda não existem perguntas cadastradas no sistema.");
+            return;
+        }
 
-//        if (niveis == null) {
-//            System.out.println("Poxa, ainda não existem perguntas cadastradas no sistema.");
-//            stop = true;
-//            continue;
-//        }
+        for (int i = aluno.getNivel()-1; i < niveis.size(); i++) { // comeca pelo nivel atual do aluno
+            Nivel nivel = niveis.get(i);
 
-        for (int i = 0; i < niveis.length; i++) {
-            System.out.println("\n=====Nível " + (i+1) + "======\n");
+            System.out.println("\n=====Nível " + nivel.getId() + "======\n");
 
-            PerfomanceNivel performance = new PerfomanceNivel(); // historico de performance do aluno
+            // historico de performance do aluno
+            PerfomanceNivel performance = new PerfomanceNivel();
 
-            if (aluno.getPerfomance() == null) {
-                aluno.setPerfomance(List.of(performance));
-            } else if (aluno.getPerfomance().get(i) == null) {
-                aluno.getPerfomance().add(performance);
+            if (aluno.getPerformance() == null || aluno.getPerformance().size() <= i) { // se nao existir performance para aquele nivel, adiciona a referencia
+                aluno.addPerformance(performance);
             } else {
-                performance = aluno.getPerfomance().get(i);
+                performance = aluno.getPerformance().get(i); // pega performance referente ao nivel caso o aluno tenha
             }
 
-            for (int j = 0; j < niveis[i].getPerguntas().length; j++) {
+            // exibe perguntas por nivel
+            for (int j = 0; j < nivel.getPerguntas().size(); j++) {
+                Pergunta pergunta = nivel.getPerguntas().get(j);
+
                 if (performance.getPerguntasCorretas().contains(j)) { // se a pergunta já foi respondida corretamente, passa para a proxima
                     continue;
                 }
 
-                System.out.println(niveis[i].getPerguntas()[j]);
+                System.out.println(pergunta);
                 System.out.print("Resposta: ");
 
-                if (input.next().equalsIgnoreCase(niveis[i].getPerguntas()[j].getResposta())) {
-                    System.out.println("Correto!");
+                if (input.next().equalsIgnoreCase(pergunta.getResposta())) {
+                    System.out.println("---------------------------------");
+
+                    System.out.println(">>>>> Correto!");
                     performance.getPerguntasCorretas().add(j);
                 } else {
-                    System.out.println("Que pena, você errou!");
+                    System.out.println("---------------------------------");
+                    System.out.println(">>>>> Que pena, você errou!");
                 }
+
+                System.out.println("=================================");
             }
 
-            System.out.println("\n=================================");
-            System.out.println("Você respondeu [" + niveis[i].getPerguntas().length + "] pergunta(s).");
-            System.out.println("E acertou [" + performance.getPerguntasCorretas().size() + "].");
+            System.out.println("Esse nível possui [" + nivel.getPerguntas().size() + "] pergunta(s)");
+            System.out.println("E você acertou [" + performance.getPerguntasCorretas().size() + "].");
             System.out.println("=================================\n");
 
             // atualiza performance do usuario
-            performance.setPorcentagemConclusao((100 * performance.getPerguntasCorretas().size()) / niveis[i].getPerguntas().length + "%");
+            int corretas = performance.getPerguntasCorretas().size();
+            int total = nivel.getPerguntas().size();
 
-            if (performance.getPerguntasCorretas().size() == niveis[i].getPerguntas().length) { // acertou todas as perguntas/passou de nível
-                aluno.setNivel(i+1);
+            performance.setPorcentagemConclusao((100 * corretas) / total + "%");
 
-                if (i == niveis.length-1) {
+            if (corretas == total) { // acertou todas as perguntas/passou de nível
+                aluno.sobeNivel();
+
+                if (i == niveis.size()-1) {
                     System.out.println("Parabéns! Você terminou o último nível.");
-                    UsuarioUtil.salvaUsuario(aluno);
-                    stop = true;
+                    return;
                 } else {
                     System.out.println("Parabéns! Você terminou o nível [" + (i+1) + "].");
-                    System.out.println("Deseja continuar? (S/N): ");
+                    System.out.println("\n" + "Deseja continuar? (S/N): ");
 
                     if (input.next().equalsIgnoreCase("n")) {
-                        UsuarioUtil.salvaUsuario(aluno);
-                        stop = true;
+                        return;
                     }
                 }
             } else { // errou alguma pergunta/nao passou de nivel
@@ -168,11 +172,9 @@ public class Sistema {
                 if (opcao == 1) {
                     i--; // voltar nível para retentar perguntas
                 } else {
-                    UsuarioUtil.salvaUsuario(aluno);
-                    stop = true;
+                   return;
                 }
             }
         }
-        return stop;
     }
 }

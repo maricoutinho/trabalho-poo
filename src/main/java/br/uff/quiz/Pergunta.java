@@ -1,15 +1,16 @@
-package br.uff.questionario;
+package br.uff.quiz;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.StringJoiner;
 
 public class Pergunta {
 
     private String texto;
     private String pergunta;
-    private String[] opcoes;
+    private List<String> opcoes;
     private String resposta;
 
-    public Pergunta(String texto, String pergunta, String[] opcoes, String resposta) {
+    public Pergunta(String texto, String pergunta, List<String> opcoes, String resposta) {
         this.texto = texto;
         this.pergunta = pergunta;
         this.opcoes = opcoes;
@@ -32,11 +33,11 @@ public class Pergunta {
         this.pergunta = pergunta;
     }
 
-    public String[] getOpcoes() {
+    public List<String> getOpcoes() {
         return opcoes;
     }
 
-    public void setOpcoes(String[] opcoes) {
+    public void setOpcoes(List<String> opcoes) {
         this.opcoes = opcoes;
     }
 
@@ -49,19 +50,21 @@ public class Pergunta {
     }
 
     private String opcoesToString() {
-        String opcoesString = "";
+        StringJoiner joiner = new StringJoiner("\n");
 
-        for (int i = 0; i < opcoes.length; i++) {
-            opcoesString += opcoes[i] + "\n";
-        }
+        opcoes.forEach(joiner::add);
 
-        return opcoesString;
+        return joiner.toString();
     }
 
     @Override
     public String toString() {
-        return "Texto: "+ texto + "\n" +
-                "Pergunta: "+ pergunta + "\n" +
-                opcoesToString();
+        StringJoiner joiner = new StringJoiner("\n");
+
+        joiner.add("Texto: " + texto)
+                .add("Pergunta: " + pergunta)
+                .add(opcoesToString());
+
+        return joiner.toString();
     }
 }

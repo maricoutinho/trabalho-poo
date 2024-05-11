@@ -1,10 +1,14 @@
 package br.uff.arquivo;
 
-import br.uff.Main;
-import br.uff.questionario.Nivel;
-import br.uff.questionario.Pergunta;
+import br.uff.quiz.Nivel;
+import br.uff.quiz.Pergunta;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PerguntasUtil {
 
@@ -19,17 +23,19 @@ public class PerguntasUtil {
     private static final String OPCAO_D = "D: ";
 
 
-    public static Nivel[] lerArquivos() {
-        Nivel[] niveis = new Nivel[4];
+    public static List<Nivel> lerArquivos() {
+        List<Nivel> niveis = new ArrayList<>();
 
         File pasta = new File(ARQUIVO_NIVEIS);
 
         if (pasta.exists()) {
             File[] arquivos = pasta.listFiles();
 
+            Arrays.sort(arquivos); // para ler os arquivos em ordem alfabetica e podermos respeitar a ordem dos niveis
+
             for (int i = 0; i < arquivos.length; i++) {
                 if (arquivos[i].isFile()) {
-                    niveis[i] = lerArquivo(arquivos[i], i);
+                    niveis.add(lerArquivo(arquivos[i], i));
                 }
             }
         }
@@ -38,25 +44,22 @@ public class PerguntasUtil {
     }
 
     private static Nivel lerArquivo(File arquivo, int i) {
-        Pergunta[] perguntas = new Pergunta[10];
+        List<Pergunta> perguntas = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
 
             String pergunta = null;
             String texto = null;
             String resposta = null;
-            String[] opcoes = new String[4];
-
-            int indiceOpcoes = 0;
-            int indicePerguntas = 0;
+            List<String> opcoes = new ArrayList<>();
 
             String linha = br.readLine();
 
             while (linha != null) {
                 if (linha.startsWith(TEXTO)) {
                     if (texto != null) {
-                        perguntas[indicePerguntas++] = new Pergunta(texto, pergunta, opcoes, resposta);
-                        indiceOpcoes = 0;
+                        perguntas.add(new Pergunta(texto, pergunta, opcoes, resposta));
+                        opcoes = new ArrayList<>();
                     } else {
                         texto = linha.substring(TEXTO.length());
                     }
@@ -66,8 +69,7 @@ public class PerguntasUtil {
                     pergunta = linha.substring(PERGUNTA.length());
                 }
                 if (linha.startsWith(OPCAO_A) || linha.startsWith(OPCAO_B) || linha.startsWith(OPCAO_C) || linha.startsWith(OPCAO_D)) {
-                    opcoes[indiceOpcoes] = linha;
-                    indiceOpcoes++;
+                    opcoes.add(linha);
                 }
                 if (linha.startsWith(RESPOSTA)) {
                     resposta = linha.substring(RESPOSTA.length());
@@ -77,11 +79,11 @@ public class PerguntasUtil {
             }
 
             if (texto != null) {
-                perguntas[indicePerguntas] = new Pergunta(texto, pergunta, opcoes, resposta);
+                perguntas.add(new Pergunta(texto, pergunta, opcoes, resposta));
             }
 
             return  new Nivel(i+1, perguntas);
-        } catch (Exception e) {
+        } catch (Exception _) {
         }
 
         return null;

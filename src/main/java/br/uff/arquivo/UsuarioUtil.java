@@ -7,7 +7,6 @@ import br.uff.usuario.Usuario;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class UsuarioUtil {
@@ -22,8 +21,8 @@ public class UsuarioUtil {
     private static final String PERFORMANCE = "Respondidas corretamente: ";
     private static final String CONCLUIDO = "Concluido: ";
 
-    public static Usuario[] lerArquivos() {
-        Usuario[] usuarios = new Usuario[10];
+    public static List<Usuario> lerArquivos() {
+        List<Usuario> usuarios = new ArrayList<>();
 
         File pasta = new File(ARQUIVO_LOGIN);
 
@@ -32,7 +31,7 @@ public class UsuarioUtil {
 
             for (int i = 0; i < arquivos.length; i++) {
                 if (arquivos[i].isFile()) {
-                    usuarios[i] = lerArquivo(arquivos[i]);
+                    usuarios.add(lerArquivo(arquivos[i]));
                 }
             }
         }
@@ -77,7 +76,7 @@ public class UsuarioUtil {
                         }
                     }
                     if (linha.startsWith(CONCLUIDO)) {
-                        perfomance.setPorcentagemConclusao(linha.substring(CONCLUIDO.length()) + "%"); // ignora %
+                        perfomance.setPorcentagemConclusao(linha.substring(CONCLUIDO.length()));
                         perfomances.add(perfomance);
                     }
                 }
@@ -108,12 +107,18 @@ public class UsuarioUtil {
                 tipo = "Professor";
             }
 
-            fw.write("Tipo: " + tipo + "\n");
-            fw.write("Login: " + usuario.getLogin() + "\n");
-            fw.write("Senha: " + usuario.getSenha() + "\n");
+            fw.write(TIPO + tipo + "\n");
+            fw.write(LOGIN + usuario.getLogin() + "\n");
+            fw.write(SENHA + usuario.getSenha() + "\n");
 
             if (usuario instanceof Aluno) {
-                fw.write("Nivel: " + ((Aluno) usuario).getNivel() + "\n");
+                fw.write(NIVEL_ATUAL + ((Aluno) usuario).getNivel() + "\n");
+
+                for (int i = 0; i < ((Aluno) usuario).getPerformance().size(); i++) {
+                    fw.write(NIVEL + (i+1) + "\n");
+                    fw.write(PERFORMANCE + ((Aluno) usuario).getPerformance().get(i).perguntasCorretasToString() + "\n");
+                    fw.write(CONCLUIDO + ((Aluno) usuario).getPerformance().get(i).getPorcentagemConclusao() + "\n");
+                }
             }
 
             fw.close();

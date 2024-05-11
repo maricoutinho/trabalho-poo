@@ -1,0 +1,28 @@
+Texto: O limão é verde.
+Pergunta: Qual a tradução correta?
+A: The lemon is green.
+B: The pinapple is green.
+C: The apple is red.
+D: The pinapple is green.
+Resposta: A
+Texto: O limão é verde.
+Pergunta: Qual a tradução correta?
+A: The lemon is green.
+B: The pinapple is green.
+C: The apple is red.
+D: The pinapple is green.
+Resposta: A
+Texto: O limão é verde.
+Pergunta: Qual a tradução correta?
+A: The lemon is green.
+B: The pinapple is green.
+C: The apple is red.
+D: The pinapple is green.
+Resposta: A
+Texto: O limão é verde.
+Pergunta: Qual a tradução correta?
+A: The lemon is green.
+B: The pinapple is green.
+C: The apple is red.
+D: The pinapple is green.
+Resposta: A

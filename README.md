@@ -28,3 +28,54 @@
 * Professor ver historico de alunos
 * Adicionar perguntas as fases existentes
 * Criar mais fases
+
+
+### Arquivos
+
+Padrao do arquivo de usuário:
+
+#### Aluno
+```
+Tipo: Aluno
+Login: login
+Senha: senha
+Nivel Atual: 2
+Nivel: 1
+Respondidas corretamente: 0,1,2,3
+Concluido: 100%
+Nivel: 2
+Respondidas corretamente: 0,2
+Concluido: 50%
+Nivel: 3
+Respondidas corretamente:
+Concluido: 0%
+Nivel: 4
+Respondidas corretamente:
+Concluido: 0%
+```
+#### Professor
+```
+Tipo: Professor
+Login: aline
+Senha: 123
+```
+
+
+Padrão do arquivo de perguntas:
+
+```
+Texto: A maçã é vermelha.
+Pergunta: Qual a tradução correta?
+A: The apple is green.
+B: The pinapple is green.
+C: The apple is red.
+D: The pinapple is green.
+Resposta: C
+Texto: The apple is red.
+Pergunta: Qual a tradução correta?
+A: A maçã é verde.
+B: O abacaxi é verde.
+C: O abacaxi é vermelho.
+D: A maçã é vermelha.
+Resposta: D
+```

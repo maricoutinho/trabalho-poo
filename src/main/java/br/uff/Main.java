@@ -20,11 +20,10 @@ public class Main {
             return;
         }
 
-        System.out.println("\n" + usuario); // exibe dados do usuário
-
         if (usuario instanceof Aluno) { // só apresenta o quiz para o aluno
             Aluno aluno = (Aluno) usuario;
 
+            System.out.println("\n" + aluno); // exibe dados do usuário
             System.out.print("\nDeseja começar? (S/N)");
 
             switch (input.next()) {
@@ -37,9 +36,11 @@ public class Main {
                     System.out.print("Opção inválida.");
                     break;
             }
-            UsuarioUtil.salvaUsuario(aluno);
+
         } else {
             System.out.print("\nPor enquanto o sistema não possui funcionalidades para você.");
         }
+
+        UsuarioUtil.salvaUsuario(usuario);
     }
 }

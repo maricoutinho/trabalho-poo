@@ -114,10 +114,12 @@ public class UsuarioUtil {
             if (usuario instanceof Aluno) {
                 fw.write(NIVEL_ATUAL + ((Aluno) usuario).getNivel() + "\n");
 
-                for (int i = 0; i < ((Aluno) usuario).getPerformance().size(); i++) {
-                    fw.write(NIVEL + (i+1) + "\n");
-                    fw.write(PERFORMANCE + ((Aluno) usuario).getPerformance().get(i).perguntasCorretasToString() + "\n");
-                    fw.write(CONCLUIDO + ((Aluno) usuario).getPerformance().get(i).getPorcentagemConclusao() + "\n");
+                if (((Aluno) usuario).getPerformance() != null) {
+                    for (int i = 0; i < ((Aluno) usuario).getPerformance().size(); i++) {
+                        fw.write(NIVEL + (i+1) + "\n");
+                        fw.write(PERFORMANCE + ((Aluno) usuario).getPerformance().get(i).perguntasCorretasToString() + "\n");
+                        fw.write(CONCLUIDO + ((Aluno) usuario).getPerformance().get(i).getPorcentagemConclusao() + "\n");
+                    }
                 }
             }
 

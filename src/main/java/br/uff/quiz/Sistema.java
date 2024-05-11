@@ -100,6 +100,12 @@ public class Sistema {
             return;
         }
 
+        if (aluno.getNivel() == niveis.size()+1) {
+            System.out.println("Você já chegou no nível máximo do quiz.");
+            return;
+        }
+
+
         for (int i = aluno.getNivel()-1; i < niveis.size(); i++) { // comeca pelo nivel atual do aluno
             Nivel nivel = niveis.get(i);
 

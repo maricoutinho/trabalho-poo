@@ -17,22 +17,29 @@ public class Main {
         Usuario usuario = sistema.trataUsuario();
         if (usuario == null) {
             System.out.print("Login e/ou senha incorretos: verifique os dados e tente novamente.");
+            return;
         }
 
         System.out.println("\n" + usuario); // exibe dados do usuário
 
-        if (usuario instanceof Aluno) { // só apresenta as perguntas para o aluno
+        if (usuario instanceof Aluno) { // só apresenta o quiz para o aluno
+            Aluno aluno = (Aluno) usuario;
+
             System.out.print("\nDeseja começar? (S/N)");
 
-            if (input.next().equalsIgnoreCase("s")) {
-                sistema.exibeQuiz((Aluno) usuario);
+            switch (input.next()) {
+                case "s":
+                    sistema.exibeQuiz(aluno);
+                    break;
+                case "n":
+                    break;
+                default:
+                    System.out.print("Opção inválida.");
+                    break;
             }
-            UsuarioUtil.salvaUsuario(usuario);
+            UsuarioUtil.salvaUsuario(aluno);
         } else {
             System.out.print("\nPor enquanto o sistema não possui funcionalidades para você.");
         }
     }
 }
-
-//TODO: caso ele ja exista, abrir apenas as perguntas da fase em que ele se encontra (salvar indice das perguntas ja respondidas)
-//TODO: precisa começar do nivel que o usuario está

@@ -4,6 +4,7 @@
 ## To Do:
 * Fazer documentação
 * Desenhar as telas do sistema
+* Não permitir criacao de usuarios com o mesmo login
 
 ## Done:
 * Carrega arquivo de usuários

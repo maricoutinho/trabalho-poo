@@ -40,18 +40,25 @@ public class Main {
 
         } else {
             System.out.println("Olá, " + usuario.getLogin());
-            System.out.println(sistema.exibeDados()); // exibe dados dos níveis
-            System.out.print("\nDeseja incluir nível? (S/N)");
 
-            switch (input.next()) {
-                case "s":
-                    sistema.getServicoQuiz().adicionaNivel();
-                    break;
-                case "n":
-                    break;
-                default:
-                    System.out.print("Opção inválida.");
-                    break;
+            boolean continuar = true;
+
+            while (continuar) {
+                System.out.println(sistema.exibeDados()); // exibe dados dos níveis
+                System.out.print("\nDeseja incluir nível? (S/N)");
+
+                switch (input.next()) {
+                    case "s":
+                        sistema.getServicoQuiz().adicionaNivel();
+                        break;
+                    case "n":
+                        continuar = false;
+                        break;
+                    default:
+                        continuar = false;
+                        System.out.print("Opção inválida.");
+                        break;
+                }
             }
         }
 

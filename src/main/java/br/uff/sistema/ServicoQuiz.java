@@ -22,29 +22,22 @@ public class ServicoQuiz {
     public void adicionaNivel() {
         Scanner input = new Scanner(System.in);
 
-        boolean continuaNivel = true;
+        List<Pergunta> perguntas = new ArrayList<>();
+        boolean continuaPergunta = true;
 
-        while (continuaNivel) {
-            List<Pergunta> perguntas = new ArrayList<>();
-            boolean continuaPergunta = true;
+        while (continuaPergunta) {
+            perguntas.add(criaPergunta());
 
-            while (continuaPergunta) {
-                perguntas.add(criaPergunta());
-
-                System.out.print("\nDeseja adicionar uma nova pergunta? (S/N)");
-                continuaPergunta = input.next().equalsIgnoreCase("s");
-            }
-
-            Nivel nivel = new Nivel((niveis.size()+1), perguntas);
-
-            NivelRepo.adicionaNivel(nivel);
-            niveis.add(nivel); // tratar de uma melhor maneira
-
-            System.out.println("\n--- Nivel [" + nivel.getId() + "] adicionado com sucesso!");
-
-            System.out.print("\nDeseja adicionar um novo nível? (S/N)");
-            continuaNivel = input.next().equalsIgnoreCase("s");
+            System.out.print("\nDeseja adicionar uma nova pergunta? (S/N)");
+            continuaPergunta = input.next().equalsIgnoreCase("s");
         }
+
+        Nivel nivel = new Nivel((niveis.size()+1), perguntas);
+
+        NivelRepo.adicionaNivel(nivel);
+        niveis.add(nivel); // tratar de uma melhor maneira
+
+        System.out.println("\n--- Nivel [" + nivel.getId() + "] adicionado com sucesso!");
     }
 
     private Pergunta criaPergunta() {

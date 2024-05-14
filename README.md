@@ -28,8 +28,8 @@
 ## Possíveis Funcionalidades
 
 * Professor ver historico de alunos
-* Adicionar perguntas as fases existentes
-* Criar mais fases
+* Adicionar perguntas as níveis existentes
+* Perfomance por nível
 
 
 ### Arquivos

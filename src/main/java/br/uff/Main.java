@@ -3,7 +3,6 @@ package br.uff;
 import br.uff.repositorio.UsuarioRepo;
 import br.uff.sistema.Sistema;
 import br.uff.usuario.Aluno;
-import br.uff.usuario.Professor;
 import br.uff.usuario.Usuario;
 
 import java.util.Scanner;
@@ -62,7 +61,7 @@ public class Main {
             }
         }
 
-        UsuarioRepo.salvaUsuario(usuario);
+        UsuarioRepo.salvarUsuario(usuario);
         input.close();
 
         System.out.print("\nAté logo!");

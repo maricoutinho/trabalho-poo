@@ -98,7 +98,7 @@ public class UsuarioRepo {
         return usuario;
     }
 
-    public static void salvaUsuario(Usuario usuario) {
+    public static void salvarUsuario(Usuario usuario) {
         try {
             FileWriter fw = new FileWriter(ARQUIVO_LOGIN + "/" + usuario.getLogin());
 

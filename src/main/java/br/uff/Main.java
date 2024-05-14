@@ -1,8 +1,9 @@
 package br.uff;
 
-import br.uff.arquivo.UsuarioUtil;
-import br.uff.quiz.Sistema;
+import br.uff.repositorio.UsuarioRepo;
+import br.uff.sistema.Sistema;
 import br.uff.usuario.Aluno;
+import br.uff.usuario.Professor;
 import br.uff.usuario.Usuario;
 
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class Main {
 
         Scanner input = new Scanner(System.in);
 
-        Usuario usuario = sistema.trataUsuario();
+        Usuario usuario = sistema.getServicoUsuario().trataUsuario();
         if (usuario == null) {
             System.out.print("Login e/ou senha incorretos: verifique os dados e tente novamente.");
             return;
@@ -28,7 +29,7 @@ public class Main {
 
             switch (input.next()) {
                 case "s":
-                    sistema.exibeQuiz(aluno);
+                    sistema.getServicoQuiz().comecaQuiz(aluno);
                     break;
                 case "n":
                     break;
@@ -38,9 +39,25 @@ public class Main {
             }
 
         } else {
-            System.out.print("\nPor enquanto o sistema não possui funcionalidades para você.");
+            System.out.println("Olá, " + usuario.getLogin());
+            System.out.println(sistema.exibeDados()); // exibe dados dos níveis
+            System.out.print("\nDeseja incluir nível? (S/N)");
+
+            switch (input.next()) {
+                case "s":
+                    sistema.getServicoQuiz().adicionaNivel();
+                    break;
+                case "n":
+                    break;
+                default:
+                    System.out.print("Opção inválida.");
+                    break;
+            }
         }
 
-        UsuarioUtil.salvaUsuario(usuario);
+        UsuarioRepo.salvaUsuario(usuario);
+        input.close();
+
+        System.out.print("\nAté logo!");
     }
 }

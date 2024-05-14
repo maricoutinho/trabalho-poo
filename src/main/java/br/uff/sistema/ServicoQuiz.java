@@ -1,102 +1,83 @@
-package br.uff.quiz;
+package br.uff.sistema;
 
-import br.uff.arquivo.PerguntasUtil;
-import br.uff.arquivo.UsuarioUtil;
+import br.uff.quiz.Nivel;
+import br.uff.repositorio.NivelRepo;
+import br.uff.quiz.Pergunta;
 import br.uff.usuario.Aluno;
 import br.uff.usuario.PerfomanceNivel;
-import br.uff.usuario.Professor;
-import br.uff.usuario.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
-public class Sistema {
+public class ServicoQuiz {
 
     private List<Nivel> niveis;
-    private List<Usuario> usuarios;
 
-    public Sistema() {
-        this.niveis = PerguntasUtil.lerArquivos();
-        this.usuarios = UsuarioUtil.lerArquivos();
+    public ServicoQuiz() {
+        this.niveis = NivelRepo.lerArquivos();
     }
 
-    public List<Nivel> getNiveis() {
-        return niveis;
-    }
-
-    public void setNiveis(List<Nivel> niveis) {
-        this.niveis = niveis;
-    }
-
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
-
-    public Usuario trataUsuario() {
+    public void adicionaNivel() {
         Scanner input = new Scanner(System.in);
 
-        System.out.println("Olá, você deseja: ");
-        System.out.println("1) Cadastrar usuário");
-        System.out.println("2) Fazer login");
+        boolean continuaNivel = true;
 
-        int opcao = input.nextInt();
+        while (continuaNivel) {
+            List<Pergunta> perguntas = new ArrayList<>();
+            boolean continuaPergunta = true;
 
-        System.out.print("Informe o login: ");
-        String login = input.next();
-        System.out.print("Informe a senha: ");
-        String senha = input.next();
+            while (continuaPergunta) {
+                perguntas.add(criaPergunta());
 
-        Usuario usuario = null;
-
-        switch (opcao) {
-            case 1:
-                System.out.println("Você é: ");
-                System.out.println("1) Aluno");
-                System.out.println("2) Professor");
-
-                int tipo = input.nextInt();
-
-                switch (tipo) {
-                    case 1:
-                        usuario = new Aluno(login, senha, 1);
-                        break;
-                    case 2:
-                        usuario = new Professor(login, senha);
-                        break;
-                    default:
-                        System.out.println("Opção inválida!");
-                        return null;
-
-                }
-                break;
-
-            case 2:
-                usuario = logaUsuario(login, senha); // valida login e senha
-                break;
-        }
-
-        return usuario;
-    }
-
-    private Usuario logaUsuario(String login, String senha) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
-                return usuario;
+                System.out.print("\nDeseja adicionar uma nova pergunta? (S/N)");
+                continuaPergunta = input.next().equalsIgnoreCase("s");
             }
+
+            Nivel nivel = new Nivel((niveis.size()+1), perguntas);
+
+            NivelRepo.adicionaNivel(nivel);
+            niveis.add(nivel); // tratar de uma melhor maneira
+
+            System.out.println("\n--- Nivel [" + nivel.getId() + "] adicionado com sucesso!");
+
+            System.out.print("\nDeseja adicionar um novo nível? (S/N)");
+            continuaNivel = input.next().equalsIgnoreCase("s");
         }
-        return null;
     }
 
-    public void exibeQuiz(Aluno aluno) {
+    private Pergunta criaPergunta() {
+        Scanner input = new Scanner(System.in);
+
+        List<String> opcoes = new ArrayList<>();
+
+        System.out.println("\nFavor inserir os dados da pergunta a seguir.");
+
+        System.out.print("Digite o texto: ");
+        String texto = input.nextLine();
+        System.out.print("Digite a pergunta: ");
+        String pergunta = input.nextLine();
+        System.out.print("Digite a opção A: ");
+        opcoes.add(input.nextLine());
+        System.out.print("Digite a opção B: ");
+        opcoes.add(input.nextLine());
+        System.out.print("Digite a opção C: ");
+        opcoes.add(input.nextLine());
+        System.out.print("Digite a opção D: ");
+        opcoes.add(input.nextLine());
+        System.out.print("Digite a resposta correta: ");
+        String resposta = input.nextLine();
+
+        return new Pergunta(texto, pergunta, opcoes, resposta);
+    }
+
+    public void comecaQuiz(Aluno aluno) {
         Scanner input = new Scanner(System.in);
         List<Nivel> niveis = getNiveis();
 
         if (niveis == null || niveis.isEmpty()) {
-            System.out.println("Poxa, ainda não existem perguntas cadastradas no sistema.");
+            System.out.println("Poxa, ainda não existem niveis cadastradas no sistema.");
             return;
         }
 
@@ -104,7 +85,6 @@ public class Sistema {
             System.out.println("Você já chegou no nível máximo do quiz.");
             return;
         }
-
 
         for (int i = aluno.getNivel()-1; i < niveis.size(); i++) { // comeca pelo nivel atual do aluno
             Nivel nivel = niveis.get(i);
@@ -120,7 +100,7 @@ public class Sistema {
                 performance = aluno.getPerformance().get(i); // pega performance referente ao nivel caso o aluno tenha
             }
 
-            // exibe perguntas por nivel
+            // exibe niveis por nivel
             for (int j = 0; j < nivel.getPerguntas().size(); j++) {
                 Pergunta pergunta = nivel.getPerguntas().get(j);
 
@@ -154,7 +134,7 @@ public class Sistema {
 
             performance.setPorcentagemConclusao((100 * corretas) / total + "%");
 
-            if (corretas == total) { // acertou todas as perguntas/passou de nível
+            if (corretas == total) { // acertou todas as niveis/passou de nível
                 aluno.sobeNivel();
 
                 if (i == niveis.size()-1) {
@@ -162,7 +142,7 @@ public class Sistema {
                     return;
                 } else {
                     System.out.println("Parabéns! Você terminou o nível [" + (i+1) + "].");
-                    System.out.println("\n" + "Deseja continuar? (S/N): ");
+                    System.out.println("\n" + "Passar para o próximo nível? (S/N): ");
 
                     if (input.next().equalsIgnoreCase("n")) {
                         return;
@@ -176,11 +156,33 @@ public class Sistema {
                 int opcao = input.nextInt();
 
                 if (opcao == 1) {
-                    i--; // voltar nível para retentar perguntas
+                    i--; // voltar nível para retentar niveis
                 } else {
-                   return;
+                    return;
                 }
             }
         }
+    }
+
+    public String exibeDados() {
+        StringJoiner joiner = new StringJoiner("\n");
+
+        if (niveis == null || niveis.isEmpty()) {
+            joiner.add("Não existem níveis cadastrados no sistema.");
+        }
+
+        for (Nivel nivel : niveis) {
+            joiner.add("Nivel " + nivel.getId() + ": " + nivel.getPerguntas().size() + " pergunta(s) cadastradas.");
+        }
+
+        return joiner.toString();
+    }
+
+    public List<Nivel> getNiveis() {
+        return niveis;
+    }
+
+    public void setNiveis(List<Nivel> niveis) {
+        this.niveis = niveis;
     }
 }

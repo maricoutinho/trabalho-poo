@@ -1,4 +1,4 @@
-package br.uff.arquivo;
+package br.uff.repositorio;
 
 import br.uff.usuario.Aluno;
 import br.uff.usuario.PerfomanceNivel;
@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioUtil {
+public class UsuarioRepo {
 
     private static final String ARQUIVO_LOGIN = "src/main/resources/usuarios/";
 

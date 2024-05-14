@@ -2,11 +2,13 @@
 
 
 ## To Do:
-* Fazer documentação
-* Desenhar as telas do sistema
 * Não permitir criacao de usuarios com o mesmo login
+* Permitir edicao de niveis pelo professor
 
 ## Done:
+* Fazer documentação
+* Desenhar as telas do sistema
+* Permite de professor crie niveis
 * Carrega arquivo de usuários
 * Carrega arquivo de perguntas
 * Faz login

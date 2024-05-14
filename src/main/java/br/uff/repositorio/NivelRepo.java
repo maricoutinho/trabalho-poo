@@ -1,18 +1,18 @@
-package br.uff.arquivo;
+package br.uff.repositorio;
 
 import br.uff.quiz.Nivel;
 import br.uff.quiz.Pergunta;
+import br.uff.usuario.Aluno;
+import br.uff.usuario.Professor;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PerguntasUtil {
+public class NivelRepo {
 
-    private static final String ARQUIVO_NIVEIS = "src/main/resources/perguntas/";
+    private static final String ARQUIVO_NIVEIS = "src/main/resources/niveis/";
 
     private static final String TEXTO = "Texto: ";
     private static final String PERGUNTA = "Pergunta: ";
@@ -87,5 +87,25 @@ public class PerguntasUtil {
         }
 
         return null;
+    }
+
+    public static void adicionaNivel(Nivel nivel) {
+        try {
+            FileWriter fw = new FileWriter(ARQUIVO_NIVEIS + "/nivel-" + nivel.getId());
+
+            for (Pergunta pergunta : nivel.getPerguntas()) {
+                fw.write(TEXTO + pergunta.getTexto() + "\n");
+                fw.write(PERGUNTA + pergunta.getPergunta() + "\n");
+                fw.write(OPCAO_A + pergunta.getOpcoes().get(0) + "\n");
+                fw.write(OPCAO_B + pergunta.getOpcoes().get(1) + "\n");
+                fw.write(OPCAO_C + pergunta.getOpcoes().get(2) + "\n");
+                fw.write(OPCAO_D + pergunta.getOpcoes().get(3) + "\n");
+                fw.write(RESPOSTA + pergunta.getResposta() + "\n");
+            }
+
+            fw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

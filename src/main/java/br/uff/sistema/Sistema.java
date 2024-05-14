@@ -1,5 +1,8 @@
 package br.uff.sistema;
 
+import br.uff.usuario.Aluno;
+import br.uff.usuario.Usuario;
+
 import java.util.StringJoiner;
 
 public class Sistema {
@@ -12,15 +15,31 @@ public class Sistema {
         this.servicoQuiz = new ServicoQuiz();
     }
 
+    public Usuario trataUsuario() {
+        return servicoUsuario.tratarUsuario();
+    }
+
+    public void salvaUsuario(Usuario usuario) {
+        servicoUsuario.salvarUsuario(usuario);
+    }
+
+    public void adicionaNivel() {
+        servicoQuiz.adicionarNivel();
+    }
+
+    public void comecaQuiz(Aluno aluno) {
+        getServicoQuiz().comecaQuiz(aluno);
+    }
+
     public String exibeDados() {
         StringJoiner joiner = new StringJoiner("\n");
 
         return joiner.add("====================================================").
                 add("                  Dados do Sistema                  ").
                 add("====================================================").
-                add(servicoQuiz.exibeDados()).
+                add(servicoQuiz.exibirDados()).
                 add("====================================================").
-//                add(servicoUsuario.exibeDados()).
+//                add(servicoUsuario.exibirDados()).
 //                add("===================================================="). faz sentido exibir esse dado para o prof?
                 toString();
     }

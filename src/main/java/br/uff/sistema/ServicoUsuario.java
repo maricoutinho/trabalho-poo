@@ -16,7 +16,7 @@ public class ServicoUsuario {
         this.usuarios = UsuarioRepo.lerArquivos();
     }
 
-    public Usuario trataUsuario() {
+    public Usuario tratarUsuario() {
         Scanner input = new Scanner(System.in);
 
         System.out.println("Olá, você deseja: ");
@@ -55,14 +55,14 @@ public class ServicoUsuario {
                 break;
 
             case 2:
-                usuario = logaUsuario(login, senha); // valida login e senha
+                usuario = logarUsuario(login, senha); // valida login e senha
                 break;
         }
 
         return usuario;
     }
 
-    private Usuario logaUsuario(String login, String senha) {
+    private Usuario logarUsuario(String login, String senha) {
         for (Usuario usuario : usuarios) {
             if (usuario.getLogin().equals(login) && usuario.getSenha().equals(senha)) {
                 return usuario;
@@ -71,7 +71,11 @@ public class ServicoUsuario {
         return null;
     }
 
-    public String exibeDados() {
+    public void salvarUsuario(Usuario usuario) {
+        UsuarioRepo.salvarUsuario(usuario);
+    }
+
+    public String exibirDados() {
         return "Usuários: Existe(m) [" + usuarios.size() + "] cadastrado(s) no sistema.";
     }
 

@@ -14,7 +14,7 @@ public class Main {
 
         Scanner input = new Scanner(System.in);
 
-        Usuario usuario = sistema.getServicoUsuario().trataUsuario();
+        Usuario usuario = sistema.trataUsuario();
         if (usuario == null) {
             System.out.print("Login e/ou senha incorretos: verifique os dados e tente novamente.");
             return;
@@ -28,7 +28,7 @@ public class Main {
 
             switch (input.next()) {
                 case "s":
-                    sistema.getServicoQuiz().comecaQuiz(aluno);
+                    sistema.comecaQuiz(aluno);
                     break;
                 case "n":
                     break;
@@ -48,7 +48,7 @@ public class Main {
 
                 switch (input.next()) {
                     case "s":
-                        sistema.getServicoQuiz().adicionaNivel();
+                        sistema.adicionaNivel();
                         break;
                     case "n":
                         continuar = false;
@@ -61,7 +61,7 @@ public class Main {
             }
         }
 
-        UsuarioRepo.salvarUsuario(usuario);
+        sistema.salvaUsuario(usuario);
         input.close();
 
         System.out.print("\nAté logo!");

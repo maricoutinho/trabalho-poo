@@ -19,7 +19,7 @@ public class ServicoQuiz {
         this.niveis = NivelRepo.lerArquivos();
     }
 
-    public void adicionaNivel() {
+    public void adicionarNivel() {
         Scanner input = new Scanner(System.in);
 
         List<Pergunta> perguntas = new ArrayList<>();
@@ -157,7 +157,7 @@ public class ServicoQuiz {
         }
     }
 
-    public String exibeDados() {
+    public String exibirDados() {
         StringJoiner joiner = new StringJoiner("\n");
 
         if (niveis == null || niveis.isEmpty()) {

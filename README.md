@@ -1,4 +1,6 @@
-# trabalho-poo-priv
+# Trabalho POO
+
+Projeto colaborativo entre os alunos: Marcos Paiano, Mariana Coutinho e Paulo Rodrigo.
 
 
 ## To Do:

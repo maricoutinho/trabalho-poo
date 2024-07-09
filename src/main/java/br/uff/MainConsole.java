@@ -6,14 +6,18 @@ import br.uff.usuario.Usuario;
 
 import java.util.Scanner;
 
-public class MainBkp {
+public class MainConsole {
 
     public static void main(String[] args) {
         Sistema sistema = new Sistema();
 
         Scanner input = new Scanner(System.in);
 
-        Usuario usuario = null;
+        Usuario usuario = sistema.trataUsuario();
+        if (usuario == null) {
+            System.out.print("Login e/ou senha incorretos: verifique os dados e tente novamente.");
+            return;
+        }
 
         if (usuario instanceof Aluno) { // só apresenta o quiz para o aluno
             Aluno aluno = (Aluno) usuario;
@@ -55,6 +59,9 @@ public class MainBkp {
                 }
             }
         }
+
+        sistema.salvaUsuario(usuario);
+        input.close();
 
         System.out.print("\nAté logo!");
     }

@@ -32,35 +32,12 @@ public class QuizPanel extends JPanel {
         this.niveis = niveis;
         this.indiceNivelAtual = aluno.getNivel() - 1; // inicia no nível atual do aluno
 
+        setLayout(new BorderLayout());
+        inicializarComponentes();
         iniciarNivel();
     }
 
-    private void iniciarNivel() {
-        if (indiceNivelAtual >= niveis.size()) {
-            JOptionPane.showMessageDialog(this, "Você completou todos os níveis disponíveis.", "Fim dos Níveis", JOptionPane.INFORMATION_MESSAGE);
-            GerenciadorDeTelas.getInstance().mostrarTela("Aluno");
-            return;
-        }
-
-        Nivel nivel = niveis.get(indiceNivelAtual);
-        JOptionPane.showMessageDialog(null, "Iniciando Nível " + nivel.getId(), "Início do Nível", JOptionPane.INFORMATION_MESSAGE);
-
-
-        // historico de performance do aluno
-        PerfomanceNivel performance;
-
-        if (aluno.getPerformance() == null || aluno.getPerformance().size() <= indiceNivelAtual) {
-            performance = new PerfomanceNivel(); // se nao existir performance para aquele nivel, adiciona a referencia
-            aluno.addPerformance(performance);
-        } else {
-            performance = aluno.getPerformance().get(indiceNivelAtual); // pega performance referente ao nivel caso o aluno tenha
-        }
-
-        perguntas = nivel.getPerguntas();
-        indicePerguntaAtual = 0;
-
-        setLayout(new BorderLayout());
-
+    private void inicializarComponentes() {
         JPanel textoPanel = new JPanel(new BorderLayout());
         textoLabel = new JLabel();
         textoPanel.add(textoLabel, BorderLayout.CENTER);
@@ -90,15 +67,41 @@ public class QuizPanel extends JPanel {
 
         responderButton = new JButton("Responder");
         add(responderButton, BorderLayout.SOUTH);
+        responderButton.addActionListener(e -> verificarResposta());
+    }
 
+    private void iniciarNivel() {
+        if (indiceNivelAtual >= niveis.size()) {
+            JOptionPane.showMessageDialog(this, "Você completou todos os níveis disponíveis.", "Fim dos Níveis", JOptionPane.INFORMATION_MESSAGE);
+            QuizApp.getInstance().mostrarTela("Aluno");
+            return;
+        }
+
+        Nivel nivel = niveis.get(indiceNivelAtual);
+        JOptionPane.showMessageDialog(null, "Iniciando Nível " + nivel.getId(), "Início do Nível", JOptionPane.INFORMATION_MESSAGE);
+
+        PerfomanceNivel performance = getPerfomanceNivel();
+
+        perguntas = nivel.getPerguntas();
+        indicePerguntaAtual = 0;
         mostrarPergunta(performance);
+    }
 
-        responderButton.addActionListener(e -> verificarResposta(performance));
+    private PerfomanceNivel getPerfomanceNivel() {
+        PerfomanceNivel performance;
+        if (aluno.getPerformance() == null || aluno.getPerformance().size() <= indiceNivelAtual) {
+            performance = new PerfomanceNivel(); // se nao existir performance para aquele nivel, adiciona a referencia
+            aluno.addPerformance(performance);
+        } else {
+            performance = aluno.getPerformance().get(indiceNivelAtual); // pega performance referente ao nivel caso o aluno tenha
+        }
+        return performance;
     }
 
     private void mostrarPergunta(PerfomanceNivel performance) {
         if (performance.getPerguntasCorretas().contains(indicePerguntaAtual)) { // se a pergunta já foi respondida corretamente, passa para a proxima
             proximaPergunta(performance);
+            return;
         }
 
         Pergunta perguntaAtual = perguntas.get(indicePerguntaAtual);
@@ -116,18 +119,19 @@ public class QuizPanel extends JPanel {
         opcaoDRadioButton.setSelected(false);
     }
 
-    private void verificarResposta(PerfomanceNivel perfomance) {
+    private void verificarResposta() {
         Pergunta perguntaAtual = perguntas.get(indicePerguntaAtual);
         String respostaUsuario = getRespostaUsuario();
+        PerfomanceNivel performance = aluno.getPerformance().get(indiceNivelAtual);
 
         if (respostaUsuario.equals(perguntaAtual.getResposta())) {
-            perfomance.getPerguntasCorretas().add(indicePerguntaAtual);
+            performance.getPerguntasCorretas().add(indicePerguntaAtual);
             JOptionPane.showMessageDialog(this, "Resposta correta!");
         } else {
             JOptionPane.showMessageDialog(this, "Resposta incorreta.");
         }
 
-        proximaPergunta(perfomance);
+        proximaPergunta(performance);
     }
 
     private String getRespostaUsuario() {
@@ -170,7 +174,7 @@ public class QuizPanel extends JPanel {
             iniciarNivel();
         } else {
             int opcao = JOptionPane.showConfirmDialog(this,
-                    "Você acertou "+ corretas +"/"+ perguntas.size()+". Deseja retentar o nível?",
+                    "Você acertou " + corretas + "/" + perguntas.size() + ". Deseja retentar o nível?",
                     "Nível não concluído",
                     JOptionPane.YES_NO_OPTION);
 
@@ -178,9 +182,8 @@ public class QuizPanel extends JPanel {
                 indicePerguntaAtual = 0;
                 mostrarPergunta(performance);
             } else {
-                //salvar progresso pelo sistema
-                //salvar usuario
-                GerenciadorDeTelas.getInstance().mostrarTela("Aluno");
+                QuizApp.getInstance().getAlunoPanel().exibeHistorico();
+                QuizApp.getInstance().mostrarTela("Aluno");
             }
         }
     }

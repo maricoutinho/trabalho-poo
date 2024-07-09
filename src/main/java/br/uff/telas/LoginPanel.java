@@ -39,14 +39,15 @@ public class LoginPanel extends JPanel {
                         "Erro de Login",
                         JOptionPane.ERROR_MESSAGE);
             } else if (usuario instanceof Aluno) {
-                GerenciadorDeTelas.getInstance().getAlunoPanel().setAluno((Aluno) usuario);
-                GerenciadorDeTelas.getInstance().getAlunoPanel().exibeHistorico();
-                GerenciadorDeTelas.getInstance().mostrarTela("Aluno");
+                QuizApp.getInstance().getAlunoPanel().setAluno((Aluno) usuario);
+                QuizApp.getInstance().getAlunoPanel().exibeHistorico();
+                QuizApp.getInstance().mostrarTela("Aluno");
             } else {
-                System.out.println("Login bem-sucedido para outro perfil!");
+                QuizApp.getInstance().mostrarTela("Professor");
+
             }
         });
 
-        cadastreseButton.addActionListener(e -> GerenciadorDeTelas.getInstance().mostrarTela("Cadastro"));
+        cadastreseButton.addActionListener(e -> QuizApp.getInstance().mostrarTela("Cadastro"));
     }
 }

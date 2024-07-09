@@ -61,14 +61,14 @@ class CadastroPanel extends JPanel {
                     JOptionPane.INFORMATION_MESSAGE);
 
             if (perfil.equals("Aluno")) {
-                GerenciadorDeTelas.getInstance().getAlunoPanel().setAluno((Aluno) usuario);
-                GerenciadorDeTelas.getInstance().getAlunoPanel().exibeHistorico();
-                GerenciadorDeTelas.getInstance().mostrarTela("Aluno");
+                QuizApp.getInstance().getAlunoPanel().setAluno((Aluno) usuario);
+                QuizApp.getInstance().getAlunoPanel().exibeHistorico();
+                QuizApp.getInstance().mostrarTela("Aluno");
             } else {
-                GerenciadorDeTelas.getInstance().mostrarTela("Login");
+                QuizApp.getInstance().mostrarTela("Login");
             }
         });
 
-        voltarButton.addActionListener(e -> GerenciadorDeTelas.getInstance().mostrarTela("Login"));
+        voltarButton.addActionListener(e -> QuizApp.getInstance().mostrarTela("Login"));
     }
 }

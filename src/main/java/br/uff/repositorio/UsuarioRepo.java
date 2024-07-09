@@ -72,7 +72,9 @@ public class UsuarioRepo {
                     if (linha.startsWith(PERFORMANCE)) {
                         String[] indices = linha.substring(PERFORMANCE.length()).split(",");
                         for (String index : indices) {
-                            perfomance.getPerguntasCorretas().add(Integer.parseInt(index));
+                            if (!index.trim().isEmpty()) {
+                                perfomance.getPerguntasCorretas().add(Integer.parseInt(index));
+                            }
                         }
                     }
                     if (linha.startsWith(CONCLUIDO)) {

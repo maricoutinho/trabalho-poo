@@ -1,44 +1,46 @@
 package br.uff.telas;
 
 import br.uff.sistema.Sistema;
-import br.uff.usuario.Aluno;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GerenciadorDeTelas extends JFrame {
-    private static GerenciadorDeTelas instance;
+public class QuizApp extends JFrame {
+    private static QuizApp instance;
+
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private LoginPanel loginPanel;
     private CadastroPanel cadastroPanel;
     private AlunoPanel alunoPanel;
+    private ProfessorPanel professorPanel;
 
-    private GerenciadorDeTelas() {
+    private QuizApp() {
         Sistema sistema = new Sistema();
 
-        setTitle("Login e Cadastro");
-        setSize(300, 250);
+        setTitle("Quiz App");
+        setSize(600, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         loginPanel = new LoginPanel(sistema);
         cadastroPanel = new CadastroPanel(sistema);
         alunoPanel = new AlunoPanel(sistema);
+        professorPanel = new ProfessorPanel(sistema);
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         mainPanel.add(loginPanel, "Login");
         mainPanel.add(cadastroPanel, "Cadastro");
         mainPanel.add(alunoPanel, "Aluno");
-
+        mainPanel.add(professorPanel, "Professor");
 
         add(mainPanel);
     }
 
-    public static GerenciadorDeTelas getInstance() {
+    public static QuizApp getInstance() {
         if (instance == null) {
-            instance = new GerenciadorDeTelas();
+            instance = new QuizApp();
         }
         return instance;
     }

@@ -15,6 +15,10 @@ public class Sistema {
         this.servicoQuiz = new ServicoQuiz();
     }
 
+    public Usuario trataUsuario() {
+        return servicoUsuario.trataUsuario();
+    }
+
     public void salvaUsuario(Usuario usuario) {
         servicoUsuario.salvaUsuario(usuario);
     }

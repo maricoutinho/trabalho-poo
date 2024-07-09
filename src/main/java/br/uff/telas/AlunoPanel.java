@@ -19,7 +19,6 @@ public class AlunoPanel extends JPanel {
     private Aluno aluno;
 
     public AlunoPanel(Sistema sistema) {
-        // Criação dos componentes
         saudacaoLabel = new JLabel();
         nivelAtualLabel = new JLabel();
         historicoArea = new JTextArea(5, 20);
@@ -27,7 +26,6 @@ public class AlunoPanel extends JPanel {
         quizButton = new JButton("Começar Quiz");
         sairButton = new JButton("Sair");
 
-        // Adicionando os componentes ao painel
         setLayout(new BorderLayout());
         JPanel topPanel = new JPanel(new GridLayout(2, 1));
         topPanel.add(saudacaoLabel);

@@ -45,23 +45,16 @@ public class Aluno extends Usuario {
     public String toStringPerformance() {
         StringJoiner joiner = new StringJoiner("\n");
 
-        joiner.add("==================").
-                add("Progresso").
-                add("==================");
-
         if (performance == null || performance.isEmpty()) {
-            return joiner.add("Concluído: 0%").
-                    add("------------------").
-                    add("==================").toString();
+            return joiner.add("Concluído: 0%").toString();
         }
 
         for (int i = 0; i < performance.size(); i++) {
             joiner.add("Nível " + (i + 1)).
-                    add(performance.get(i).toString()).
-                    add("------------------");
+                    add(performance.get(i).toString());
         }
 
-        return joiner.add("==================").toString();
+        return joiner.toString();
     }
 
     public void sobeNivel() {
@@ -72,9 +65,7 @@ public class Aluno extends Usuario {
     public String toString() {
         StringJoiner joiner = new StringJoiner("\n");
 
-        joiner.add("==================").
-                add("------------------").
-                add("Usuário: " + getLogin()).
+        joiner.add("Usuário: " + getLogin()).
                 add(toStringPerformance());
 
         return joiner.toString();

@@ -15,12 +15,12 @@ public class Sistema {
         this.servicoQuiz = new ServicoQuiz();
     }
 
-    public Usuario trataUsuario() {
-        return servicoUsuario.tratarUsuario();
+    public void salvaUsuario(Usuario usuario) {
+        servicoUsuario.salvaUsuario(usuario);
     }
 
-    public void salvaUsuario(Usuario usuario) {
-        servicoUsuario.salvarUsuario(usuario);
+    public Usuario logaUsuario(String login, String senha) {
+        return servicoUsuario.logaUsuario(login, senha);
     }
 
     public void adicionaNivel() {
